@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>MegaStore - Busca de Produtos</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 50px; 
+        }
+        h1 { color: #333; }
+        input { width: 300px; padding: 10px; margin: 5px; border-radius: 8px; }
+        button { padding: 10px 15px; margin-left: 5px; border-radius: 8px; cursor: pointer; background: #0078d7; color: white; border: none; }
+        button:hover { background: #005fa3; }
+        #resultados { margin-top: 40px; width: 60%; }
+        .produto { background: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .produto h3 { margin: 0; color: #0078d7; }
+        #cadastro-btn { margin-top: 20px; background-color: #28a745; }
+        #cadastro-btn:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+    <h1>🔍 MegaStore - Busca de Produtos</h1>
+
+    <div>
+        <input type="text" id="busca" placeholder="Digite algo (ex: notebook, fone)">
+        <button onclick="buscar()">Buscar</button>
+    </div>
+
+    <!-- Botão para ir para página de cadastro -->
+    <button id="cadastro-btn" onclick="window.location.href='/cadastro'">Cadastrar Produto</button>
+
+    <div id="resultados"></div>
+
+    <script>
+        async function buscar() {
+            const termo = document.getElementById("busca").value;
+            const resp = await fetch(`/search?q=${encodeURIComponent(termo)}`);
+            const dados = await resp.json();
+            const container = document.getElementById("resultados");
+            container.innerHTML = "";
+            if (dados.length === 0) { 
+                container.innerHTML = "<p>Nenhum produto encontrado.</p>"; 
+                return; 
+            }
+            for (const item of dados) {
+                const div = document.createElement("div");
+                div.className = "produto";
+                div.innerHTML = `<h3>${item.nome}</h3><p><b>Categoria:</b> ${item.categoria}</p><p><b>Preço:</b> R$ ${item.preco.toFixed(2)}</p>`;
+                container.appendChild(div);
+            }
+        }
+    </script>
+</body>
+</html>
+
