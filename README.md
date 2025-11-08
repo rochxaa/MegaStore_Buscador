@@ -1,4 +1,4 @@
-# 🛒 Sistema de Busca Otimizado - MegaStore
+# Sistema de Busca Otimizado - MegaStore
 
 ## Descrição do Projeto
 O **MegaStore Search** é um sistema de busca desenvolvido em **Rust**, projetado para oferecer **consultas rápidas e precisas**.
